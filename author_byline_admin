@@ -1,0 +1,90 @@
+
+
+//add check box for author to show author note in content bottom
+/* Define the custom box */
+add_action( 'add_meta_boxes', 'wpse_61041_add_custom_box' );
+
+/* Do something with the data entered */
+add_action( 'save_post', 'wpse_61041_save_postdata' );
+
+/* Adds a box to the main column on the Post and Page edit screens */
+function wpse_61041_add_custom_box() {
+    add_meta_box( 
+        'wpse_61041_sectionid',
+        'Bottom Byline',
+        'wpse_61041_inner_custom_box',
+        'post',
+        'side',
+        'high'
+    );
+}
+
+/* Prints the box content */
+function wpse_61041_inner_custom_box($post)
+{
+    // Use nonce for verification
+    wp_nonce_field( 'wpse_61041_wpse_61041_field_nonce', 'wpse_61041_noncename' );
+
+    // Get saved value, if none exists, "default" is selected
+    $saved = get_post_meta( $post->ID, 'author_des', true);
+	
+    if( !$saved )
+        $saved = 'default';
+$same='<p class="text-center">'.date('Y').' &copy;  </p>
+
+
+
+$p_long='';
+$p_short='';
+$b='';
+
+
+    $fields = array(
+	
+        'P long byline' => __($p_long, 'wpse'),
+		'P short byline'  => __($p_short, 'wpse'),
+         'B  byline'   => __($b, 'wpse'),
+		
+    );?>
+    
+	<?php foreach($fields as $key => $label)
+    {
+	$options = get_option( 'author_des');	
+	$value=$_POST['author_des'];
+	/*$checked = (isset($_POST['author_des']) && $_POST['author_des'] == $save) ?
+         " checked='checked'" : '';*/
+        printf(
+            '<input type="radio" name="author_des" value="%2$s"  id="author_des[%1$s]" %3$s />'.
+            '<label for="author_des[%1$s]"> %1$s ' .
+            '</label>
+			<br>',
+		
+            esc_attr($key),
+            esc_html($label),
+			checked($saved,$key,false)
+            
+        );
+    }
+	?>
+   
+ 
+    <?php
+}
+
+/* When the post is saved, saves our custom data */
+function wpse_61041_save_postdata( $post_id ) 
+{
+      // verify if this is an auto save routine. 
+      // If it is our form has not been submitted, so we dont want to do anything
+      if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+          return;
+
+      // verify this came from the our screen and with proper authorization,
+      // because save_post can be triggered at other times
+      if ( !wp_verify_nonce( $_POST['wpse_61041_noncename'], 'wpse_61041_wpse_61041_field_nonce' ) )
+          return;
+
+      if ( isset($_POST['author_des']) && $_POST['author_des'] != "" ){
+            update_post_meta( $post_id, 'author_des', $_POST['author_des'] );
+      } 
+}
