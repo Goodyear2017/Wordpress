@@ -2,7 +2,7 @@ jQuery(function($) {
 	$('#grantee').css('background-color','yellow');
    
 	
-$.getJSON("http://localhost/equalvoicenews/wp-content/plugins/grantee_customfield/grantee_jason.php", function(data){
+$.getJSON("grantee_jason.php", function(data){
 	 var html = '<option value="0">-------Select a grantee--------</option>';
    
 	
