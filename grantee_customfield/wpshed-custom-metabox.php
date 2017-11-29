@@ -1,11 +1,10 @@
 <?php
 /*
-Plugin Name: EVN Custom Meta Boxes
-Plugin URI: https://equalvoiceaction.com/
-Description: Create Meta Boxes for EVN.
+Plugin Name: Custom Meta Boxes
+Plugin URI: 
+Description: Create Meta Boxes for 
 Version: 0.1
-Author: Lili Xie
-Author URI: https://equalvoiceaction.com/
+
 License: GPL v2 or higher
 License URI: License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
